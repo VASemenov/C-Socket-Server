@@ -5,7 +5,8 @@
 - [x] Sends index.html to client
 - [x] Multithreading
 - [ ] Uses static files on client side
-- [ ] Add more features
+- [ ] Routing
+- [ ] Expand this list of features
 
 # Quick start
 
