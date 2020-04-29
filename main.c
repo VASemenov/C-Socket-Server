@@ -9,15 +9,17 @@
 
 #define PORT 8080
 #define BUFFER_SIZE 4096
-#define SERVER_BACKLOG 200
+#define SERVER_BACKLOG 1200
 #define CLIENT 1
 #define SERVER 0
 #define ERROR_CODE -1
 
 void run_server();
-void read_html(char* response_html);
+void read_html();
 void *socket_thread(void *client_socket);
 void check(int operation, char* message);
+
+char response_html[BUFFER_SIZE] = {'0'};
 
 
 int main()
@@ -37,6 +39,9 @@ void run_server()
     pid_t pids[50];
     int pid, i = 0;
 
+    /* Read index.html and save for later */
+    read_html();
+
     /* Creating server socket descriptor */
     server_desc = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
 
@@ -52,7 +57,7 @@ void run_server()
     check(bind(server_desc, (struct sockaddr *) &address, sizeof(address)), "bind failed");
     check(listen(server_desc, SERVER_BACKLOG), "listen failure");
 
-    while (true) 
+    while (true)
     {
         address_len = sizeof(address);
 
@@ -60,7 +65,7 @@ void run_server()
         client_desc = accept(server_desc, (struct sockaddr *) &client_address, (socklen_t*) &address_len);
         check(client_desc, "client descriptor");
 
-        /* Assign client socket desctiptor to pointer 
+        /* Assign client socket desctiptor to pointer
         (to use it in thread) */
         int *client_socket = malloc(sizeof(int) * 2);
         *client_socket = client_desc;
@@ -75,14 +80,10 @@ void run_server()
 void *socket_thread(void *client_socket) {
     int client_desc = *((int *)client_socket);
     free(client_socket);
-    
+
     /* Standard header for html file that will be sent to client */
     char* header = "HTTP/1.1 200 OK\r\nContent-Type: text/html\r\n\r\n";
     char buffer[BUFFER_SIZE] = {'0'};
-    char response_html[BUFFER_SIZE] = {'0'};
-
-    /* Read index.html and save for later */
-    read_html(response_html);
 
     /* Get request from client */
     memset(buffer, 0, BUFFER_SIZE);
@@ -95,12 +96,12 @@ void *socket_thread(void *client_socket) {
     write(client_desc, response_html, strlen(response_html));
 
     close(client_desc);
-    
+
     return NULL;
 }
 
 
-void read_html(char *response_html)
+void read_html()
 {
     /* Preparing html file as a default response to client */
     FILE* index_html;
