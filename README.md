@@ -8,7 +8,7 @@
 - [ ] Routing
 - [ ] Response compression
 - [ ] Proxy server
-- [ ] Refactor code into modules
+- [x] Refactor code into modules
 - [ ] Expand this list of features
 
 # Quick start
