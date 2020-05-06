@@ -12,5 +12,8 @@
 - [ ] Expand this list of features
 
 # Quick start
+In terminal:
+1. ```cd server/```, 
+2. ```./server```
 
-Run ```./server``` in terminal. That's it, server is running on http://0.0.0.0:3030
+That's it, server is running on http://0.0.0.0:3030
