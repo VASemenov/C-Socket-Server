@@ -13,7 +13,7 @@
 
 # Quick start
 In terminal:
-1. ```cd server/```, 
+1. ```cd server/``` 
 2. ```./server```
 
 That's it, server is running on http://0.0.0.0:3030
