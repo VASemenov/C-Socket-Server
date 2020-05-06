@@ -13,6 +13,7 @@
 #include "../utils/sendfile2.h"
 #include "../utils/error_handler.h"
 #include "../utils/logger.h"
+#include "../utils/sockets.h"
 
 #define IP "0.0.0.0"
 #define PORT 3030

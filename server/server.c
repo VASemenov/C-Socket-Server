@@ -12,32 +12,20 @@ void run_server()
 {
     /* server and client socket descriptors */
     int server_desc, client_desc;
-    int address_len, opt = 1;
-    struct sockaddr_in address, client_address;
-    pid_t pids[50];
-    int pid, i = 0;
+    server server_socket;
+    struct sockaddr_in client_address;
 
-    /* Read index.html and save for later */
-    // read_html();
+    server_socket.ip = IP;
+    server_socket.port = PORT;
+    server_socket.backlog = SERVER_BACKLOG;
+    server_socket.name = "Server";
 
     /* Creating server socket descriptor */
-    server_desc = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
-
-    /* Establish server socket */
-    check(server_desc, "server descriptor");
-    check(setsockopt(server_desc, SOL_SOCKET, SO_REUSEPORT, &opt, sizeof(opt)), "socket options");
-
-    /* Setting up address of the server to localhost:8080 */
-    address.sin_family = AF_INET;
-    address.sin_addr.s_addr = inet_addr(IP);
-    address.sin_port = htons(PORT);
-    address_len = sizeof(address);
-
-    check(bind(server_desc, (struct sockaddr *) &address, sizeof(address)), "bind failed");
-    check(listen(server_desc, SERVER_BACKLOG), "listen failure");
+    server_desc = tcp_socket(server_socket);
 
     while (true)
     {
+        // TODO: Move to separate function?
         /* Creating client socket descriptor */
         client_desc = accept(server_desc, (struct sockaddr *) NULL, NULL);
         check(client_desc, "client descriptor");
