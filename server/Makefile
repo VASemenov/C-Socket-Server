@@ -1,2 +1,2 @@
-server: server.c ../sendfile/sendfile2.c ../error_handler/error_handler.c
-	gcc -o server server.c ../sendfile/sendfile2.c ../error_handler/error_handler.c
+server: server.c ../utils/sendfile2.c ../utils/error_handler.c ../utils/logger.c
+	gcc -o server server.c ../utils/sendfile2.c ../utils/error_handler.c ../utils/logger.c
